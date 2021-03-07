@@ -11,7 +11,12 @@ function [center_of_mass, center_of_buoyancy, mass_boat, mass_water] = boat_sim(
     % Base meshgrid
     [x, y] = meshgrid(linspace(-W, W, samples_per), linspace(0, D, samples_per));
     p = [x(:), y(:)];
-    dA = (p(1, 2) - p(1, 1)) * (p(2, 2) - p(2, 1));
+    
+    x_vals = unique(p(:, 1));
+    y_vals = unique(p(:, 2));
+    dx = abs(x_vals(2) - x_vals(1));
+    dy = abs(y_vals(2) - y_vals(1));
+    dA = dx * dy;
 
     % Roate boat
     p_rotated = p * [cosd(heel_angle) -sind(heel_angle); sind(heel_angle) cosd(heel_angle)]';
