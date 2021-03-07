@@ -1,4 +1,4 @@
-function [center_of_mass, center_of_buoyancy, mass_boat, mass_water] = boat_sim(heel_angle, W, D, L, rho_func, should_draw)
+function [center_of_mass, center_of_buoyancy, mass_boat, mass_water] = boat_sim(heel_angle, W, D, L, contour_func, rho_func, should_draw)
     samples_per = 100;
     rho_water = 1000; % kg/m^3
     
@@ -22,7 +22,7 @@ function [center_of_mass, center_of_buoyancy, mass_boat, mass_water] = boat_sim(
     p_rotated = p * [cosd(heel_angle) -sind(heel_angle); sind(heel_angle) cosd(heel_angle)]';
     
     % Check if in boat
-    inside_boat = D*(2*p(:, 1) / W).^2 <= p(:, 2);
+    inside_boat = contour_func(p(:, 1), p(:, 2));
     
     %% Integrate conditional masses
     function [mass_difference, masses_boat, masses_water, inside_boat_under_water] = find_masses(d)
