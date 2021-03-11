@@ -40,7 +40,22 @@ function [center_of_mass, center_of_buoyancy, mass_boat, mass_water] = boat_sim(
     y_max = max(p(:, 2));
     
     % Solve for buoyant water level
-    water_level = fzero(@(d)( sum(find_masses(d)) ), [y_min, y_max]);
+    try
+        water_level = fzero(@(d)( sum(find_masses(d)) ), [y_min, y_max]);
+    catch exception
+        if strcmp(exception.identifier, 'MATLAB:fzero:ValuesAtEndPtsSameSign')
+            % TODO: Check this BEFORE the fzero try/catch to save time
+            if sum(find_masses(y_max)) > 0
+                %fprintf("Boatsim saturating waterlevel heavy phi=%f, [W, D] = [%f, %f]\n", heel_angle, W, D);
+                water_level = y_max;
+            end
+            
+        else
+            % Otherwise throw error
+            fprintf("Boatsim error at phi=%f, [W, D] = [%f, %f]\n", heel_angle, W, D);
+            throw(exception)
+        end  
+    end
     [~, masses_boat, masses_water, inside_boat_under_water] = find_masses(water_level);
     
     
