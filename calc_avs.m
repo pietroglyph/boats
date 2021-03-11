@@ -2,7 +2,7 @@ function [avs, phis, moment_arms]= calc_avs(W, D, L, f_contour, f_rho)
     phis = 1:180;
     moment_arms = zeros(size(phis));
     
-    for phi = 1 : length(phis)
+    for phi = phis
         moment_arms(phi) = moment_arm_func(phi, W, D, L, f_contour, f_rho);
     end
     
@@ -18,7 +18,7 @@ function [avs, phis, moment_arms]= calc_avs(W, D, L, f_contour, f_rho)
             find(diff(sign(moment_arms_cropped)) &...
                  diff(moment_arms_cropped) < 0);
 
-    v_avs = phis(found_indices); 
+    v_avs = phis(found_indices);
     
     if isempty(v_avs)
         avs = 0;
