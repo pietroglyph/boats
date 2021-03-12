@@ -62,16 +62,25 @@ function [center_of_mass, center_of_buoyancy, mass_boat, mass_water] = boat_sim(
     end
     [~, masses_boat, masses_water, inside_boat_under_water] = find_masses(water_level);
     
-    
-    %% Draw output
-    if should_draw
-      plot(p_rotated(inside_boat, 1), p_rotated(inside_boat, 2), "ro", p_rotated(inside_boat_under_water, 1), p_rotated(inside_boat_under_water, 2), "bo");
-      axis equal;
-    end
-    
     %% Set return outputs
     mass_boat = sum(masses_boat);
     mass_water = sum(masses_water);
     center_of_mass = (masses_boat' * p_rotated) ./ mass_boat;
     center_of_buoyancy = (masses_water' * p_rotated) ./ mass_water;
+    
+    %% Draw output
+    if should_draw
+      figure()
+      hold on;
+      scatter(p_rotated(inside_boat, 1), p_rotated(inside_boat, 2), "ro");
+      scatter(p_rotated(inside_boat_under_water, 1), p_rotated(inside_boat_under_water, 2), "bo");
+      scatter(center_of_mass(1), center_of_mass(2), 100, [0.6350 0.0780 0.1840], 'filled');
+      scatter(center_of_buoyancy(1), center_of_buoyancy(2), 100, [0 1 1], 'filled');
+      
+      title("Boat water level simulation result");
+      xlabel("Width (in)");
+      ylabel("Height (in)");
+      legend("Boat", "Water", "CoM", "CoB");
+      axis equal;
+    end
 end
