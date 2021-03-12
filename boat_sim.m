@@ -1,4 +1,4 @@
-function [center_of_mass, center_of_buoyancy, mass_boat, mass_water] = boat_sim(heel_angle, W, D, L, contour_func, rho_func, should_draw)
+function [center_of_mass, center_of_buoyancy, mass_boat, mass_water, disp_ratio] = boat_sim(heel_angle, W, D, L, contour_func, rho_func, should_draw)
     samples_per = 100;
     rho_water = 1000; % kg/m^3
     
@@ -83,4 +83,6 @@ function [center_of_mass, center_of_buoyancy, mass_boat, mass_water] = boat_sim(
       legend("Boat", "Water", "CoM", "CoB");
       axis equal;
     end
+
+    disp_ratio = sum(masses_boat) / sum(inside_boat * 1000 * dA * L);
 end
