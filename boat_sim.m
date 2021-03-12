@@ -78,8 +78,8 @@ function [center_of_mass, center_of_buoyancy, mass_boat, mass_water, disp_ratio]
       scatter(center_of_buoyancy(1), center_of_buoyancy(2), 100, [0 1 1], 'filled');
       
       title("Boat water level simulation result");
-      xlabel("Width (in)");
-      ylabel("Height (in)");
+      xlabel("Width (m)");
+      ylabel("Height (m)");
       legend("Boat", "Water", "CoM", "CoB");
       axis equal;
     end
